@@ -1,4 +1,4 @@
-use tauri::tray::TrayIconBuilder;
+mod tray;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -10,10 +10,7 @@ fn greet(name: &str) -> String {
 pub fn run() {
     tauri::Builder::default()
         .setup(|app| {
-            let _tray = TrayIconBuilder::new()
-                .icon(app.default_window_icon().unwrap().clone())
-                .build(app)?;
-
+            let _tray = tray::run(app);
             Ok(())
         })
         .plugin(tauri_plugin_opener::init())
