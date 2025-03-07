@@ -26,12 +26,11 @@ fn tray_icon_event(tray: &TrayIcon, event: TrayIconEvent) {
             println!("left click pressed and released");
             let app = tray.app_handle();
             if let Some(window) = app.get_webview_window("main") {
-                let is_minimized = window.is_minimized().unwrap_or(false);
-                if is_minimized {
-                    let _ = window.unminimize();
+                if let Ok(true) = window.is_minimizable() {
+                    window.unminimize().unwrap();
                 }
-                let _ = window.show();
-                let _ = window.set_focus();
+                window.show().unwrap();
+                window.set_focus().unwrap();
             }
         }
 

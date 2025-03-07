@@ -1,9 +1,10 @@
+mod global_shortcut;
 mod splash_screen;
 mod tray;
 mod window_state;
 
 use std::sync::Mutex;
-use tauri::{Window, WindowEvent};
+use tauri::{Manager, Window, WindowEvent};
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -17,6 +18,7 @@ pub fn run() {
         .setup(|app| {
             let _tray = tray::run(app);
             let _splash_screen = splash_screen::run(app);
+            global_shortcut::init(app).unwrap();
 
             Ok(())
         })
@@ -27,6 +29,16 @@ pub fn run() {
                 .skip_initial_state("splashscreen")
                 .build(),
         )
+        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+            let window = app.get_webview_window("main").expect("no main window");
+            if let Ok(true) = window.is_minimized() {
+                window.unminimize().unwrap();
+            }
+            if let Ok(false) = window.is_visible() {
+                window.show().unwrap();
+            }
+            window.set_focus().unwrap();
+        }))
         .manage(Mutex::new(splash_screen::SetupState {
             frontend_task: false,
             backend_task: false,
