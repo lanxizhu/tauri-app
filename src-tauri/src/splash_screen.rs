@@ -1,3 +1,4 @@
+use super::window_state;
 use std::sync::Mutex;
 use tauri::{async_runtime::spawn, App, AppHandle, Manager, State};
 use tokio::time::{sleep, Duration};
@@ -25,6 +26,7 @@ pub async fn set_complete(
     }
     // Check if both tasks are completed
     if state_lock.backend_task && state_lock.frontend_task {
+        window_state::restore(app.clone());
         // Setup is complete, we can close the splashscreen
         // and unhide the main window!
         let splash_window = app.get_webview_window("splashscreen").unwrap();
