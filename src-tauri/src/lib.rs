@@ -39,6 +39,7 @@ pub fn run() {
             }
             window.set_focus().unwrap();
         }))
+        .plugin(global_shortcut::build())
         .manage(Mutex::new(splash_screen::SetupState {
             frontend_task: false,
             backend_task: false,
