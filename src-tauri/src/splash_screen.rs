@@ -55,7 +55,7 @@ async fn setup(app: AppHandle) -> Result<(), ()> {
     Ok(())
 }
 
-pub fn run(app: &mut App) -> Result<(), ()> {
+pub fn init(app: &mut App) -> Result<(), ()> {
     spawn(setup(app.handle().clone()));
 
     Ok(())

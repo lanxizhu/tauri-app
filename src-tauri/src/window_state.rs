@@ -1,7 +1,7 @@
-use tauri::{AppHandle, Manager, Window};
-use tauri_plugin_window_state::{AppHandleExt, StateFlags, WindowExt};
+use tauri::{plugin::TauriPlugin, AppHandle, Manager, Window, Wry};
+use tauri_plugin_window_state::{AppHandleExt, Builder, StateFlags, WindowExt};
 
-pub fn get_flags() -> StateFlags {
+fn get_flags() -> StateFlags {
     StateFlags::all() & !StateFlags::VISIBLE
 }
 
@@ -16,4 +16,11 @@ pub fn save(window: &Window) {
     if let Err(err) = window.app_handle().save_window_state(get_flags()) {
         eprintln!("Error saving window state: {:?}", err);
     }
+}
+
+pub fn build() -> TauriPlugin<Wry> {
+    Builder::default()
+        .with_state_flags(get_flags())
+        .skip_initial_state("splashscreen")
+        .build()
 }

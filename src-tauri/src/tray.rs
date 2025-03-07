@@ -40,7 +40,7 @@ fn tray_icon_event(tray: &TrayIcon, event: TrayIconEvent) {
     }
 }
 
-pub fn run(app: &mut App) -> Result<(), Error> {
+pub fn init(app: &mut App) -> Result<(), Error> {
     let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
     let menu = Menu::with_items(app, &[&quit_i])?;
 
