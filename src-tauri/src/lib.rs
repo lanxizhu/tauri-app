@@ -1,11 +1,12 @@
 mod global_shortcut;
 mod single_instance;
 mod splash_screen;
+mod theme;
 mod tray;
+mod window;
 mod window_state;
 
 use std::sync::Mutex;
-use tauri::{Window, WindowEvent};
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -31,20 +32,8 @@ pub fn run() {
             frontend_task: false,
             backend_task: false,
         }))
-        .on_window_event(window_event)
+        .on_window_event(window::event)
         .invoke_handler(tauri::generate_handler![greet, splash_screen::set_complete])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
-}
-
-fn window_event(window: &Window, event: &WindowEvent) {
-    match event {
-        WindowEvent::CloseRequested { .. } => {}
-        WindowEvent::Destroyed => {
-            if window.label() == "main" {
-                window_state::save(window);
-            }
-        }
-        _ => {}
-    }
 }
