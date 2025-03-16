@@ -21,6 +21,7 @@ pub fn run() {
             tray::init(app).unwrap();
             splash_screen::init(app).unwrap();
             global_shortcut::init(app).unwrap();
+            theme::init(app);
 
             Ok(())
         })

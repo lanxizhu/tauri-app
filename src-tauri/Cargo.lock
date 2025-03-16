@@ -3694,6 +3694,7 @@ dependencies = [
 name = "tauri-app"
 version = "0.1.0"
 dependencies = [
+ "raw-window-handle",
  "serde",
  "serde_json",
  "tauri",
@@ -3703,6 +3704,7 @@ dependencies = [
  "tauri-plugin-single-instance",
  "tauri-plugin-window-state",
  "tokio",
+ "window-vibrancy",
 ]
 
 [[package]]
