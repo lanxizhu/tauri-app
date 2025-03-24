@@ -16,9 +16,14 @@ pub async fn set_complete(
     app: AppHandle,
     state: State<'_, Mutex<SetupState>>,
     task: String,
-) -> Result<(), ()> {
+) -> Result<String, ()> {
     // Lock the state without write access
     let mut state_lock = state.lock().unwrap();
+
+    if state_lock.frontend_task && state_lock.backend_task {
+        return Ok("Both tasks are already completed!".to_string());
+    }
+
     match task.as_str() {
         "frontend" => state_lock.frontend_task = true,
         "backend" => state_lock.backend_task = true,
@@ -34,7 +39,7 @@ pub async fn set_complete(
         splash_window.close().unwrap();
         main_window.show().unwrap();
     }
-    Ok(())
+    Ok("Task completed!".to_string())
 }
 
 // An async function that does some heavy setup task
