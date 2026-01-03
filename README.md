@@ -12,7 +12,7 @@ This template should help get you started developing with Tauri in vanilla HTML,
 - [x] Support Window system mica.
 - [x] Theme support (Dark or Light).
 - [x] Support window state restore.
-- [ ] Support macOS.
+- [ ] Support macOS (Coming Soon...).
 - [ ] Support Linux.
 
 ## Recommended IDE Setup
