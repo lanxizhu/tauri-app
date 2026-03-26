@@ -102,7 +102,7 @@ pub fn init(app: &mut App) -> Result<(), Error> {
 
     #[cfg(target_os = "windows")]
     {
-        tray.set_icon(app.default_window_icon().unwrap().clone())
+        let _ = tray.set_icon(app.default_window_icon().cloned());
     }
 
     #[cfg(target_os = "macos")]
