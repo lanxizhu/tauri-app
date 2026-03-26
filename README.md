@@ -1,8 +1,11 @@
 # ✨ Tauri App
 
+
 This template should help get you started developing with Tauri in vanilla HTML, CSS and Typescript.
 
 ## 🎉 Features
+
+![Icon](./src-tauri/icons/64x64.png)
 
 - [x] Tray icon.
 - [x] System tray menu.
