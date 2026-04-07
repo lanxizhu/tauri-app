@@ -31,11 +31,13 @@ fn menu_init(app: &App) -> Result<Menu<Wry>, Error> {
         "dark" => {
             app_handle.set_theme(Some(Theme::Dark));
             light.set_checked(false).expect("Change check error");
+            #[cfg(target_os = "windows")]
             tray_icon_change(app_handle, Theme::Dark);
         }
         "light" => {
             app_handle.set_theme(Some(Theme::Light));
             dark.set_checked(false).expect("Change check error");
+            #[cfg(target_os = "windows")]
             tray_icon_change(app_handle, Theme::Light);
         }
         "quit" => {
@@ -73,8 +75,9 @@ fn tray_icon_event(tray: &TrayIcon, event: TrayIconEvent) {
     }
 }
 
+#[cfg(target_os = "windows")]
+#[allow(dead_code)]
 fn tray_icon_change(app_handle: &AppHandle, theme: Theme) {
-    #[cfg(target_os = "windows")]
     {
         let icon = if theme == Theme::Dark {
             Image::from_bytes(include_bytes!("../icons/tray_black.png")).ok()

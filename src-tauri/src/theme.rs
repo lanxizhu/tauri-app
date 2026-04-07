@@ -24,6 +24,7 @@ pub fn light(app: &App) -> bool {
 }
 
 pub fn init(app: &mut App) {
+    #[allow(unused_variables)]
     app.webview_windows().iter().for_each(|window| {
         #[cfg(target_os = "windows")]
         {
@@ -33,6 +34,7 @@ pub fn init(app: &mut App) {
     });
 }
 
+#[allow(unused_variables, dead_code)]
 pub fn change(window: impl HasWindowHandle, theme: &Theme) {
     let dark = theme == &Theme::Dark;
 
