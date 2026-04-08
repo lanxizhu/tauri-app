@@ -57,7 +57,12 @@ jobs:
 
       - name: Check if the version is a Beta
         id: check-beta
-        run: echo "IS_BETA=$(echo '${GITHUB_REF#refs/tags/}' | grep -E 'beta|alpha|rc' || true)" >> $GITHUB_OUTPUT
+        run: |
+            if [[ "${{ github.ref_name }}" =~ -beta|rc|alpha ]]; then
+              echo "is_prerelease=true" >> $GITHUB_OUTPUT
+            else
+              echo "is_prerelease=false" >> $GITHUB_OUTPUT
+            fi
 
       - uses: tauri-apps/tauri-action@v0
         env:
@@ -69,6 +74,6 @@ jobs:
           releaseName: 'v__VERSION__'
           releaseBody: 'See the assets to download this version and install.'
           releaseDraft: false
-          prerelease: ${{ steps.check-beta.outputs.IS_BETA != '' }}
+          prerelease: ${{ steps.check-beta.outputs.is_prerelease }}
           updaterJsonPreferNsis: true
           args: ${{ matrix.args }}
