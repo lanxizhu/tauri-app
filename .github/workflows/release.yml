@@ -55,15 +55,6 @@ jobs:
         # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
         run: pnpm i # change this to npm or pnpm depending on which one you use.
 
-      - name: Check if the version is a Beta
-        id: check-beta
-        run: |
-            if [[ "${{ github.ref_name }}" =~ -beta|rc|alpha ]]; then
-              echo "is_prerelease=true" >> $GITHUB_OUTPUT
-            else
-              echo "is_prerelease=false" >> $GITHUB_OUTPUT
-            fi
-
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -74,6 +65,6 @@ jobs:
           releaseName: 'v__VERSION__'
           releaseBody: 'See the assets to download this version and install.'
           releaseDraft: false
-          prerelease: ${{ steps.check-beta.outputs.is_prerelease }}
+          prerelease: ${{ contains(github.ref_name, '-beta') || contains(github.ref_name, '-rc') || contains(github.ref_name, '-alpha') }}
           updaterJsonPreferNsis: true
           args: ${{ matrix.args }}
