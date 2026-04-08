@@ -3,6 +3,7 @@ mod single_instance;
 mod splash_screen;
 mod theme;
 mod tray;
+mod updater;
 mod window;
 mod window_state;
 
@@ -17,12 +18,18 @@ fn greet(name: &str) -> String {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .setup(|app| {
             tray::init(app).unwrap();
             splash_screen::init(app).unwrap();
             global_shortcut::init(app).unwrap();
             theme::init(app);
+
+            let handle = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                let _ = updater::check(handle.clone()).await;
+            });
 
             Ok(())
         })
