@@ -27,7 +27,7 @@ pub fn run() {
             global_shortcut::init(app).unwrap();
             theme::init(app);
 
-            // #[cfg(not(debug_assertions))]
+            #[cfg(not(debug_assertions))]
             {
                 use tauri::async_runtime::spawn;
 
