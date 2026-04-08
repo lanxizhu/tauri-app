@@ -21,6 +21,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
 }
 
 .container {
@@ -70,6 +71,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
+  line-height: 1.2;
   color: #0f0f0f;
   background-color: #ffffff;
   transition: border-color 0.25s;
@@ -97,6 +99,62 @@ button {
   margin-right: 5px;
 }
 
+.restart-tip {
+  width: calc(100% - 4rem);
+  position: fixed;
+  bottom: 1em;
+  left: 50%;
+  background-color: #ffffff98;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+
+  transform: translateX(-50%) translateY(20px);
+  max-width: 480px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  opacity: 0;
+  transition: transform 0.75s, opacity 0.75s, display 0.75s allow-discrete;
+  display: none;
+}
+
+.restart-tip.show {
+  opacity: 1;
+  display: block;
+  transform: translateX(-50%) translateY(0);
+}
+
+@starting-style {
+  .restart-tip.show{
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+}
+
+.restart-tip > button {
+  padding: 0.3em 0.8em;
+  font-size: 0.9em;
+  float: right;
+  font-style: italic;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.restart-tip > button:hover {
+  background-color: #c7c7c798;
+  border: none;
+  box-shadow: none;
+}
+
+.restart-tip > button:active {
+  background-color: #88888898;
+}
+
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
@@ -114,5 +172,20 @@ button {
   }
   button:active {
     background-color: #0f0f0f69;
+  }
+
+  .restart-tip {
+    background-color: #0f0f0f98;
+    color: #f6f6f6;
+  }
+
+  .restart-tip > button:hover {
+    background-color: #4b4b4b98;
+    border: none;
+    box-shadow: none;
+  }
+
+  .restart-tip > button:active {
+    background-color: #41414198;
   }
 }

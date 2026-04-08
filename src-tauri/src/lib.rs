@@ -26,10 +26,15 @@ pub fn run() {
             global_shortcut::init(app).unwrap();
             theme::init(app);
 
+            // #[cfg(not(debug_assertions))]
+            {
+                use tauri::async_runtime::spawn;
+
             let handle = app.handle().clone();
-            tauri::async_runtime::spawn(async move {
+                spawn(async move {
                 let _ = updater::check(handle.clone()).await;
             });
+            }
 
             Ok(())
         })
@@ -42,7 +47,11 @@ pub fn run() {
             backend_task: false,
         }))
         .on_window_event(window::event)
-        .invoke_handler(tauri::generate_handler![greet, splash_screen::set_complete])
+        .invoke_handler(tauri::generate_handler![
+            greet,
+            splash_screen::set_complete,
+            updater::restart
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

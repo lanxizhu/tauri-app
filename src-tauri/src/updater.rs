@@ -1,6 +1,7 @@
-use tauri::AppHandle;
+use tauri::{AppHandle, Emitter};
 use tauri_plugin_updater::{Result, UpdaterExt};
 
+#[allow(dead_code)]
 pub async fn check(app: AppHandle) -> Result<()> {
     if let Some(update) = app.updater()?.check().await? {
         let mut downloaded = 0;
@@ -18,9 +19,21 @@ pub async fn check(app: AppHandle) -> Result<()> {
             )
             .await?;
 
-        println!("update installed");
-        app.restart();
+        println!("update is ready to be installed");
+        // restart(app).await?;
+        ready(app);
     }
 
     Ok(())
+}
+
+#[tauri::command]
+fn ready(app: AppHandle) {
+    app.emit("update-ready", "Update is ready to be installed!")
+        .unwrap();
+}
+
+#[tauri::command]
+pub async fn restart(app: AppHandle) -> Result<()> {
+    app.restart();
 }
