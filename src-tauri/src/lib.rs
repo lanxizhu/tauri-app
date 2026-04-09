@@ -9,6 +9,7 @@ mod window;
 mod window_state;
 
 use std::sync::Mutex;
+#[warn(unused_imports)]
 use tauri::Manager;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
@@ -35,7 +36,7 @@ pub fn run() {
 
                 let handle = app.handle().clone();
                 spawn(async move {
-                    let _ = updater::check(handle.clone()).await;
+                    let _ = updater::check(handle.clone(), false).await;
                 });
             }
 

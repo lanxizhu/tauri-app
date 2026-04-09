@@ -27,13 +27,7 @@ pub fn init(app: &mut App) -> Result<(), Error> {
         None::<&str>,
     )?;
 
-    let restart = MenuItem::with_id(
-        app.handle(),
-        "restart",
-        "Restart to Update",
-        true,
-        None::<&str>,
-    )?;
+    let restart = MenuItem::with_id(app.handle(), "restart", "Restart", true, None::<&str>)?;
 
     let toggle_devtools = MenuItem::with_id(
         app.handle(),
@@ -89,7 +83,7 @@ fn handle_menu_event(app: &tauri::AppHandle, event: &MenuEvent) {
         "check_for_updates" => {
             let handle = app.clone();
             spawn(async move {
-                if let Err(error) = updater::check(handle).await {
+                if let Err(error) = updater::check(handle, true).await {
                     eprintln!("failed to check for updates: {error}");
                 }
             });

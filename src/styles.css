@@ -134,26 +134,78 @@ button {
   }
 }
 
-.restart-tip > button {
+.update-tip-container button {
   padding: 0.3em 0.8em;
   font-size: 0.9em;
-  float: right;
+  /* float: right; */
   font-style: italic;
   background-color: transparent;
   border: none;
   box-shadow: none;
+  transition: all 0.3s;
 }
 
-.restart-tip > button:hover {
+.update-tip-container button:hover {
   background-color: #c7c7c798;
   border: none;
   box-shadow: none;
 }
 
-.restart-tip > button:active {
+.update-tip-container button:active {
   background-color: #88888898;
 }
 
+.restart-tip button {
+  float: right;
+}
+
+.update-container {
+  position: fixed;
+  top: 1em;
+  right: 1em;
+  background-color: #ffffff98;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  max-width: 480px;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  /* opacity: 0; */
+  /* transition: opacity 0.75s, display 0.75s allow-discrete; */
+}
+
+.no-update-tip {
+  font-style: italic;
+  position: fixed;
+  top: 1em;
+  right: 1em;
+  background-color: #ffffff98;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transform-origin: right center;
+  display: none;
+  transition: transform 0.5s, display 0.5s allow-discrete;
+  transform: scaleX(0);
+}
+
+.no-update-tip.show {
+  display: block;
+  transform: scaleX(1);
+
+  @starting-style {
+    transform: scaleX(0);
+  }
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -174,18 +226,18 @@ button {
     background-color: #0f0f0f69;
   }
 
-  .restart-tip {
+  .restart-tip, .no-update-tip {
     background-color: #0f0f0f98;
     color: #f6f6f6;
   }
 
-  .restart-tip > button:hover {
+  .update-tip-container button:hover {
     background-color: #4b4b4b98;
     border: none;
     box-shadow: none;
   }
 
-  .restart-tip > button:active {
+  .update-tip-container button:active {
     background-color: #41414198;
   }
 }

@@ -7,6 +7,15 @@ listen<string>("update-ready", (event) => {
   document.querySelector(".restart-tip")?.classList.toggle("show");
 });
 
+listen<string>("update-not-available", (event) => {
+  console.log(`update not available: ${event.payload}`);
+  document.querySelector(".no-update-tip")?.classList.toggle("show");
+
+  setTimeout(() => {
+    document.querySelector(".no-update-tip")?.classList.toggle("show");
+  }, 3000);
+});
+
 let greetInputEl: HTMLInputElement | null;
 let greetMsgEl: HTMLElement | null;
 
@@ -32,10 +41,13 @@ window.addEventListener("DOMContentLoaded", () => {
     greet();
   });
 
-  document.querySelector("#check-updates")?.addEventListener("click", (e) => {
-    e.preventDefault();
-    document.querySelector(".restart-tip")?.classList.toggle("show");
-  });
+  document
+    .querySelector("#toggle-update-tips")
+    ?.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.querySelector(".restart-tip")?.classList.toggle("show");
+      document.querySelector(".no-update-tip")?.classList.toggle("show");
+    });
 
   document.querySelector("#restart")?.addEventListener("click", (e) => {
     e.preventDefault();
@@ -46,6 +58,17 @@ window.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     document.querySelector(".restart-tip")?.classList.remove("show");
   });
+
+  document
+    .querySelector("#check-updates-later")
+    ?.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.querySelector(".no-update-tip")?.classList.remove("show");
+    });
+
+  if (!import.meta.env.DEV) {
+    document.getElementById("toggle-update-tips")!.style.display = "none";
+  }
 });
 
 useSplashScreen();
