@@ -1,7 +1,7 @@
 use super::window_state;
 use std::sync::Mutex;
-use tauri::{async_runtime::spawn, App, AppHandle, Manager, State};
-use tokio::time::{sleep, Duration};
+use tauri::{App, AppHandle, Manager, State, async_runtime::spawn};
+use tokio::time::{Duration, sleep};
 
 // Create a struct we'll use to track the completion of
 // setup related tasks

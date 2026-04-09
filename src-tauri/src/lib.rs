@@ -1,4 +1,5 @@
 mod global_shortcut;
+mod menu;
 mod single_instance;
 mod splash_screen;
 mod theme;
@@ -26,15 +27,16 @@ pub fn run() {
             splash_screen::init(app).unwrap();
             global_shortcut::init(app).unwrap();
             theme::init(app);
+            menu::init(app)?;
 
             #[cfg(not(debug_assertions))]
             {
                 use tauri::async_runtime::spawn;
 
-            let handle = app.handle().clone();
+                let handle = app.handle().clone();
                 spawn(async move {
-                let _ = updater::check(handle.clone()).await;
-            });
+                    let _ = updater::check(handle.clone()).await;
+                });
             }
 
             // Only open devtools in debug builds
